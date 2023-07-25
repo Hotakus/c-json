@@ -27,7 +27,7 @@
 #include "unity/examples/unity_config.h"
 #include "unity/src/unity.h"
 #include "common.h"
-#include "../cJSON_Utils.h"
+#include "../cjson_utils.h"
 
 static cJSON *parse_test_file(const char * const filename)
 {

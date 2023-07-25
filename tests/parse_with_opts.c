@@ -27,13 +27,13 @@
 static void parse_with_opts_should_handle_null(void)
 {
     const char *error_pointer = NULL;
-    cJSON *item = NULL;
-    TEST_ASSERT_NULL_MESSAGE(cJSON_ParseWithOpts(NULL, &error_pointer, false), "Failed to handle NULL input.");
-    item = cJSON_ParseWithOpts("{}", NULL, false);
+    cjson_t *item = NULL;
+    TEST_ASSERT_NULL_MESSAGE(cjson_parse_with_opts(NULL, &error_pointer, false), "Failed to handle NULL input.");
+    item = cjson_parse_with_opts("{}", NULL, false);
     TEST_ASSERT_NOT_NULL_MESSAGE(item, "Failed to handle NULL error pointer.");
-    cJSON_Delete(item);
-    TEST_ASSERT_NULL_MESSAGE(cJSON_ParseWithOpts(NULL, NULL, false), "Failed to handle both NULL.");
-    TEST_ASSERT_NULL_MESSAGE(cJSON_ParseWithOpts("{", NULL, false), "Failed to handle NULL error pointer with parse error.");
+    cjson_delete(item);
+    TEST_ASSERT_NULL_MESSAGE(cjson_parse_with_opts(NULL, NULL, false), "Failed to handle both NULL.");
+    TEST_ASSERT_NULL_MESSAGE(cjson_parse_with_opts("{", NULL, false), "Failed to handle NULL error pointer with parse error.");
 }
 
 static void parse_with_opts_should_handle_empty_strings(void)
@@ -41,12 +41,12 @@ static void parse_with_opts_should_handle_empty_strings(void)
     const char empty_string[] = "";
     const char *error_pointer = NULL;
 
-    TEST_ASSERT_NULL(cJSON_ParseWithOpts(empty_string, NULL, false));
-    TEST_ASSERT_EQUAL_PTR(empty_string, cJSON_GetErrorPtr());
+    TEST_ASSERT_NULL(cjson_parse_with_opts(empty_string, NULL, false));
+    TEST_ASSERT_EQUAL_PTR(empty_string, cjson_get_error_ptr());
 
-    TEST_ASSERT_NULL(cJSON_ParseWithOpts(empty_string, &error_pointer, false));
+    TEST_ASSERT_NULL(cjson_parse_with_opts(empty_string, &error_pointer, false));
     TEST_ASSERT_EQUAL_PTR(empty_string, error_pointer);
-    TEST_ASSERT_EQUAL_PTR(empty_string, cJSON_GetErrorPtr());
+    TEST_ASSERT_EQUAL_PTR(empty_string, cjson_get_error_ptr());
 }
 
 static void parse_with_opts_should_handle_incomplete_json(void)
@@ -54,20 +54,20 @@ static void parse_with_opts_should_handle_incomplete_json(void)
     const char json[] = "{ \"name\": ";
     const char *parse_end = NULL;
 
-    TEST_ASSERT_NULL(cJSON_ParseWithOpts(json, &parse_end, false));
+    TEST_ASSERT_NULL(cjson_parse_with_opts(json, &parse_end, false));
     TEST_ASSERT_EQUAL_PTR(json + strlen(json), parse_end);
-    TEST_ASSERT_EQUAL_PTR(json + strlen(json), cJSON_GetErrorPtr());
+    TEST_ASSERT_EQUAL_PTR(json + strlen(json), cjson_get_error_ptr());
 }
 
 static void parse_with_opts_should_require_null_if_requested(void)
 {
-    cJSON *item = cJSON_ParseWithOpts("{}", NULL, true);
+    cjson_t *item = cjson_parse_with_opts("{}", NULL, true);
     TEST_ASSERT_NOT_NULL(item);
-    cJSON_Delete(item);
-    item = cJSON_ParseWithOpts("{} \n", NULL, true);
+    cjson_delete(item);
+    item = cjson_parse_with_opts("{} \n", NULL, true);
     TEST_ASSERT_NOT_NULL(item);
-    cJSON_Delete(item);
-    TEST_ASSERT_NULL(cJSON_ParseWithOpts("{}x", NULL, true));
+    cjson_delete(item);
+    TEST_ASSERT_NULL(cjson_parse_with_opts("{}x", NULL, true));
 }
 
 static void parse_with_opts_should_return_parse_end(void)
@@ -75,26 +75,26 @@ static void parse_with_opts_should_return_parse_end(void)
     const char json[] = "[] empty array XD";
     const char *parse_end = NULL;
 
-    cJSON *item = cJSON_ParseWithOpts(json, &parse_end, false);
+    cjson_t *item = cjson_parse_with_opts(json, &parse_end, false);
     TEST_ASSERT_NOT_NULL(item);
     TEST_ASSERT_EQUAL_PTR(json + 2, parse_end);
-    cJSON_Delete(item);
+    cjson_delete(item);
 }
 
 static void parse_with_opts_should_parse_utf8_bom(void)
 {
-    cJSON *with_bom = NULL;
-    cJSON *without_bom = NULL;
+    cjson_t *with_bom = NULL;
+    cjson_t *without_bom = NULL;
 
-    with_bom = cJSON_ParseWithOpts("\xEF\xBB\xBF{}", NULL, true);
+    with_bom = cjson_parse_with_opts("\xEF\xBB\xBF{}", NULL, true);
     TEST_ASSERT_NOT_NULL(with_bom);
-    without_bom = cJSON_ParseWithOpts("{}", NULL, true);
+    without_bom = cjson_parse_with_opts("{}", NULL, true);
     TEST_ASSERT_NOT_NULL(with_bom);
 
-    TEST_ASSERT_TRUE(cJSON_Compare(with_bom, without_bom, true));
+    TEST_ASSERT_TRUE(cjson_compare(with_bom, without_bom, true));
 
-    cJSON_Delete(with_bom);
-    cJSON_Delete(without_bom);
+    cjson_delete(with_bom);
+    cjson_delete(without_bom);
 }
 
 int CJSON_CDECL main(void)

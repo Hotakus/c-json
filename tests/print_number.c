@@ -29,7 +29,7 @@ static void assert_print_number(const char *expected, double input)
     unsigned char printed[1024];
     unsigned char new_buffer[26];
     unsigned int i = 0;
-    cJSON item[1];
+    cjson_t item[1];
     printbuffer buffer = { 0, 0, 0, 0, 0, 0, { 0, 0, 0 } };
     buffer.buffer = printed;
     buffer.length = sizeof(printed);
@@ -40,7 +40,7 @@ static void assert_print_number(const char *expected, double input)
 
     memset(item, 0, sizeof(item));
     memset(new_buffer, 0, sizeof(new_buffer));
-    cJSON_SetNumberValue(item, input);
+    CJSON_SET_NUMBER_VALUE(item, input);
     TEST_ASSERT_TRUE_MESSAGE(print_number(item, &buffer), "Failed to print number.");
     
     /* In MinGW or visual studio(before 2015),the exponten is represented using three digits,like:"1e-009","1e+017"

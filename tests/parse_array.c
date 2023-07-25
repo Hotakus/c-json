@@ -28,14 +28,14 @@
 #include "unity/src/unity.h"
 #include "common.h"
 
-static cJSON item[1];
+static cjson_t item[1];
 
-static void assert_is_array(cJSON *array_item)
+static void assert_is_array(cjson_t *array_item)
 {
     TEST_ASSERT_NOT_NULL_MESSAGE(array_item, "Item is NULL.");
 
     assert_not_in_list(array_item);
-    assert_has_type(array_item, cJSON_Array);
+    assert_has_type(array_item, CJSON_ARRAY);
     assert_has_no_reference(array_item);
     assert_has_no_const_string(array_item);
     assert_has_no_valuestring(array_item);
@@ -79,25 +79,25 @@ static void parse_array_should_parse_arrays_with_one_element(void)
 
     assert_parse_array("[1]");
     assert_has_child(item);
-    assert_has_type(item->child, cJSON_Number);
+    assert_has_type(item->child, CJSON_NUMBER);
     reset(item);
 
     assert_parse_array("[\"hello!\"]");
     assert_has_child(item);
-    assert_has_type(item->child, cJSON_String);
+    assert_has_type(item->child, CJSON_STRING);
     TEST_ASSERT_EQUAL_STRING("hello!", item->child->valuestring);
     reset(item);
 
     assert_parse_array("[[]]");
     assert_has_child(item);
     TEST_ASSERT_NOT_NULL(item->child);
-    assert_has_type(item->child, cJSON_Array);
+    assert_has_type(item->child, CJSON_ARRAY);
     assert_has_no_child(item->child);
     reset(item);
 
     assert_parse_array("[null]");
     assert_has_child(item);
-    assert_has_type(item->child, cJSON_NULL);
+    assert_has_type(item->child, CJSON_NULL);
     reset(item);
 }
 
@@ -108,23 +108,23 @@ static void parse_array_should_parse_arrays_with_multiple_elements(void)
     TEST_ASSERT_NOT_NULL(item->child->next);
     TEST_ASSERT_NOT_NULL(item->child->next->next);
     TEST_ASSERT_NULL(item->child->next->next->next);
-    assert_has_type(item->child, cJSON_Number);
-    assert_has_type(item->child->next, cJSON_Number);
-    assert_has_type(item->child->next->next, cJSON_Number);
+    assert_has_type(item->child, CJSON_NUMBER);
+    assert_has_type(item->child->next, CJSON_NUMBER);
+    assert_has_type(item->child->next->next, CJSON_NUMBER);
     reset(item);
 
     {
         size_t i = 0;
-        cJSON *node = NULL;
+        cjson_t *node = NULL;
         int expected_types[7] =
         {
-            cJSON_Number,
-            cJSON_NULL,
-            cJSON_True,
-            cJSON_False,
-            cJSON_Array,
-            cJSON_String,
-            cJSON_Object
+                CJSON_NUMBER,
+                CJSON_NULL,
+                CJSON_TRUE,
+                CJSON_FALSE,
+                CJSON_ARRAY,
+                CJSON_STRING,
+                CJSON_OBJECT
         };
         assert_parse_array("[1, null, true, false, [], \"hello\", {}]");
 
@@ -156,7 +156,7 @@ static void parse_array_should_not_parse_non_arrays(void)
 int CJSON_CDECL main(void)
 {
     /* initialize cJSON item */
-    memset(item, 0, sizeof(cJSON));
+    memset(item, 0, sizeof(cjson_t));
 
     UNITY_BEGIN();
     RUN_TEST(parse_array_should_parse_empty_arrays);

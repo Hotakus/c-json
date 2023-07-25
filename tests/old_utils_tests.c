@@ -27,7 +27,7 @@
 #include "unity/examples/unity_config.h"
 #include "unity/src/unity.h"
 #include "common.h"
-#include "../cJSON_Utils.h"
+#include "../cjson_utils.h"
 
 /* JSON Apply Merge tests: */
 static const char *merges[15][3] =

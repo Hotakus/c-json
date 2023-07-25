@@ -115,8 +115,8 @@ option(ENABLE_TARGET_EXPORT "Enable exporting of CMake targets. Disable when it 
 #cJSON
 set(CJSON_LIB cjson)
 
-file(GLOB HEADERS cJSON.h)
-set(SOURCES cJSON.c)
+file(GLOB HEADERS cjson.h)
+set(SOURCES cjson.c)
 
 option(BUILD_SHARED_AND_STATIC_LIBS "Build both shared and static libraries" Off)
 option(CJSON_OVERRIDE_BUILD_SHARED_LIBS "Override BUILD_SHARED_LIBS with CJSON_BUILD_SHARED_LIBS" OFF)
@@ -146,7 +146,7 @@ endif()
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/library_config/libcjson.pc.in"
     "${CMAKE_CURRENT_BINARY_DIR}/libcjson.pc" @ONLY)
 
-install(FILES cJSON.h DESTINATION "${CMAKE_INSTALL_FULL_INCLUDEDIR}/cjson")
+install(FILES cjson.h DESTINATION "${CMAKE_INSTALL_FULL_INCLUDEDIR}/cjson")
 install (FILES "${CMAKE_CURRENT_BINARY_DIR}/libcjson.pc" DESTINATION "${CMAKE_INSTALL_FULL_LIBDIR}/pkgconfig")
 install(TARGETS "${CJSON_LIB}"
     EXPORT "${CJSON_LIB}"
@@ -179,8 +179,8 @@ option(ENABLE_CJSON_UTILS "Enable building the cJSON_Utils library." OFF)
 if(ENABLE_CJSON_UTILS)
     set(CJSON_UTILS_LIB cjson_utils)
 
-    file(GLOB HEADERS_UTILS cJSON_Utils.h)
-    set(SOURCES_UTILS cJSON_Utils.c)
+    file(GLOB HEADERS_UTILS cjson_utils.h)
+    set(SOURCES_UTILS cjson_utils.c)
 
     if (NOT BUILD_SHARED_AND_STATIC_LIBS)
         add_library("${CJSON_UTILS_LIB}" "${CJSON_LIBRARY_TYPE}" "${HEADERS_UTILS}" "${SOURCES_UTILS}")
@@ -211,7 +211,7 @@ if(ENABLE_CJSON_UTILS)
         INCLUDES DESTINATION "${CMAKE_INSTALL_FULL_INCLUDEDIR}"
         )
     endif()
-    install(FILES cJSON_Utils.h DESTINATION "${CMAKE_INSTALL_FULL_INCLUDEDIR}/cjson")
+    install(FILES cjson_utils.h DESTINATION "${CMAKE_INSTALL_FULL_INCLUDEDIR}/cjson")
     install (FILES "${CMAKE_CURRENT_BINARY_DIR}/libcjson_utils.pc" DESTINATION "${CMAKE_INSTALL_FULL_LIBDIR}/pkgconfig")
     if(ENABLE_TARGET_EXPORT)
       # export library information for CMake projects

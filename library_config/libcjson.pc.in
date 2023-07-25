@@ -4,7 +4,7 @@ includedir=@CMAKE_INSTALL_FULL_INCLUDEDIR@
 Name: libcjson
 Version: @PROJECT_VERSION@
 Description: Ultralightweight JSON parser in ANSI C
-URL: https://github.com/DaveGamble/cJSON
+URL: https://github.com/DaveGamble/cjson_t
 Libs: -L${libdir} -lcjson
 Libs.private: -lm
 Cflags: -I${includedir} -I${includedir}/cjson

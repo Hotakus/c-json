@@ -24,38 +24,38 @@
 #include "unity/src/unity.h"
 #include "common.h"
 
-static cJSON_bool compare_from_string(const char * const a, const char * const b, const cJSON_bool case_sensitive)
+static cjson_bool_t compare_from_string(const char * const a, const char * const b, const cjson_bool_t case_sensitive)
 {
-    cJSON *a_json = NULL;
-    cJSON *b_json = NULL;
-    cJSON_bool result = false;
+    cjson_t *a_json = NULL;
+    cjson_t *b_json = NULL;
+    cjson_bool_t result = false;
 
-    a_json = cJSON_Parse(a);
+    a_json = cjson_parse(a);
     TEST_ASSERT_NOT_NULL_MESSAGE(a_json, "Failed to parse a.");
-    b_json = cJSON_Parse(b);
+    b_json = cjson_parse(b);
     TEST_ASSERT_NOT_NULL_MESSAGE(b_json, "Failed to parse b.");
 
-    result = cJSON_Compare(a_json, b_json, case_sensitive);
+    result = cjson_compare(a_json, b_json, case_sensitive);
 
-    cJSON_Delete(a_json);
-    cJSON_Delete(b_json);
+    cjson_delete(a_json);
+    cjson_delete(b_json);
 
     return result;
 }
 
 static void cjson_compare_should_compare_null_pointer_as_not_equal(void)
 {
-    TEST_ASSERT_FALSE(cJSON_Compare(NULL, NULL, true));
-    TEST_ASSERT_FALSE(cJSON_Compare(NULL, NULL, false));
+    TEST_ASSERT_FALSE(cjson_compare(NULL, NULL, true));
+    TEST_ASSERT_FALSE(cjson_compare(NULL, NULL, false));
 }
 
 static void cjson_compare_should_compare_invalid_as_not_equal(void)
 {
-    cJSON invalid[1];
+    cjson_t invalid[1];
     memset(invalid, '\0', sizeof(invalid));
 
-    TEST_ASSERT_FALSE(cJSON_Compare(invalid, invalid, false));
-    TEST_ASSERT_FALSE(cJSON_Compare(invalid, invalid, true));
+    TEST_ASSERT_FALSE(cjson_compare(invalid, invalid, false));
+    TEST_ASSERT_FALSE(cjson_compare(invalid, invalid, true));
 }
 
 static void cjson_compare_should_compare_numbers(void)
@@ -100,13 +100,13 @@ static void cjson_compare_should_compare_null(void)
 
 static void cjson_compare_should_not_accept_invalid_types(void)
 {
-    cJSON invalid[1];
+    cjson_t invalid[1];
     memset(invalid, '\0', sizeof(invalid));
 
-    invalid->type = cJSON_Number | cJSON_String;
+    invalid->type = CJSON_NUMBER | CJSON_STRING;
 
-    TEST_ASSERT_FALSE(cJSON_Compare(invalid, invalid, true));
-    TEST_ASSERT_FALSE(cJSON_Compare(invalid, invalid, false));
+    TEST_ASSERT_FALSE(cjson_compare(invalid, invalid, true));
+    TEST_ASSERT_FALSE(cjson_compare(invalid, invalid, false));
 }
 
 static void cjson_compare_should_compare_strings(void)
@@ -120,22 +120,22 @@ static void cjson_compare_should_compare_strings(void)
 
 static void cjson_compare_should_compare_raw(void)
 {
-    cJSON *raw1 = NULL;
-    cJSON *raw2 = NULL;
+    cjson_t *raw1 = NULL;
+    cjson_t *raw2 = NULL;
 
-    raw1 = cJSON_Parse("\"[true, false]\"");
+    raw1 = cjson_parse("\"[true, false]\"");
     TEST_ASSERT_NOT_NULL(raw1);
-    raw2 = cJSON_Parse("\"[true, false]\"");
+    raw2 = cjson_parse("\"[true, false]\"");
     TEST_ASSERT_NOT_NULL(raw2);
 
-    raw1->type = cJSON_Raw;
-    raw2->type = cJSON_Raw;
+    raw1->type = CJSON_RAW;
+    raw2->type = CJSON_RAW;
 
-    TEST_ASSERT_TRUE(cJSON_Compare(raw1, raw2, true));
-    TEST_ASSERT_TRUE(cJSON_Compare(raw1, raw2, false));
+    TEST_ASSERT_TRUE(cjson_compare(raw1, raw2, true));
+    TEST_ASSERT_TRUE(cjson_compare(raw1, raw2, false));
 
-    cJSON_Delete(raw1);
-    cJSON_Delete(raw2);
+    cjson_delete(raw1);
+    cjson_delete(raw2);
 }
 
 static void cjson_compare_should_compare_arrays(void)

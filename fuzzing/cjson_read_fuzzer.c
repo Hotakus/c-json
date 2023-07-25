@@ -6,13 +6,13 @@
 extern "C" {
 #endif
 
-#include "../cJSON.h"
+#include "../cjson.h"
 
 int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size); /* required by C89 */
 
 int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size)
 {
-    cJSON *json;
+    cjson_t *json;
     size_t offset = 4;
     unsigned char *copied;
     char *printed_json = NULL;
@@ -31,24 +31,24 @@ int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size)
     formatted           = data[2] == '1' ? 1 : 0;
     buffered            = data[3] == '1' ? 1 : 0;
 
-    json = cJSON_ParseWithOpts((const char*)data + offset, NULL, require_termination);
+    json = cjson_parse_with_opts((const char *)data + offset, NULL, require_termination);
 
     if(json == NULL) return 0;
 
     if(buffered)
     {
-        printed_json = cJSON_PrintBuffered(json, 1, formatted);
+        printed_json = cjson_print_buffered(json, 1, formatted);
     }
     else
     {
         /* unbuffered printing */
         if(formatted)
         {
-            printed_json = cJSON_Print(json);
+            printed_json = cjson_print(json);
         }
         else
         {
-            printed_json = cJSON_PrintUnformatted(json);
+            printed_json = cjson_print_unformatted(json);
         }
     }
 
@@ -61,12 +61,12 @@ int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size)
 
         memcpy(copied, data, size);
 
-        cJSON_Minify((char*)copied + offset);
+        cjson_minify((char *)copied + offset);
 
         free(copied);
     }
 
-    cJSON_Delete(json);
+    cjson_delete(json);
 
     return 0;
 }

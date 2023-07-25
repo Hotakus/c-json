@@ -23,24 +23,24 @@
 #ifndef CJSON_TESTS_COMMON_H
 #define CJSON_TESTS_COMMON_H
 
-#include "../cJSON.c"
+#include "../cjson.c"
 
-void reset(cJSON *item);
-void reset(cJSON *item) {
+void reset(cjson_t *item);
+void reset(cjson_t *item) {
     if ((item != NULL) && (item->child != NULL))
     {
-        cJSON_Delete(item->child);
+        cjson_delete(item->child);
     }
-    if ((item->valuestring != NULL) && !(item->type & cJSON_IsReference))
+    if ((item->valuestring != NULL) && !(item->type & CJSON_IS_REFERENCE))
     {
         global_hooks.deallocate(item->valuestring);
     }
-    if ((item->string != NULL) && !(item->type & cJSON_StringIsConst))
+    if ((item->string != NULL) && !(item->type & CJSON_STRING_IS_CONST))
     {
         global_hooks.deallocate(item->string);
     }
 
-    memset(item, 0, sizeof(cJSON));
+    memset(item, 0, sizeof(cjson_t));
 }
 
 char* read_file(const char *filename);
@@ -101,8 +101,8 @@ cleanup:
 
 /* assertion helper macros */
 #define assert_has_type(item, item_type) TEST_ASSERT_BITS_MESSAGE(0xFF, item_type, item->type, "Item doesn't have expected type.")
-#define assert_has_no_reference(item) TEST_ASSERT_BITS_MESSAGE(cJSON_IsReference, 0, item->type, "Item should not have a string as reference.")
-#define assert_has_no_const_string(item) TEST_ASSERT_BITS_MESSAGE(cJSON_StringIsConst, 0, item->type, "Item should not have a const string.")
+#define assert_has_no_reference(item) TEST_ASSERT_BITS_MESSAGE(CJSON_IS_REFERENCE, 0, item->type, "Item should not have a string as reference.")
+#define assert_has_no_const_string(item) TEST_ASSERT_BITS_MESSAGE(CJSON_STRING_IS_CONST, 0, item->type, "Item should not have a const string.")
 #define assert_has_valuestring(item) TEST_ASSERT_NOT_NULL_MESSAGE(item->valuestring, "Valuestring is NULL.")
 #define assert_has_no_valuestring(item) TEST_ASSERT_NULL_MESSAGE(item->valuestring, "Valuestring is not NULL.")
 #define assert_has_string(item) TEST_ASSERT_NOT_NULL_MESSAGE(item->string, "String is NULL")
@@ -113,7 +113,7 @@ cleanup:
 #define assert_has_child(item) TEST_ASSERT_NOT_NULL_MESSAGE(item->child, "Item doesn't have a child.")
 #define assert_has_no_child(item) TEST_ASSERT_NULL_MESSAGE(item->child, "Item has a child.")
 #define assert_is_invalid(item) \
-	assert_has_type(item, cJSON_Invalid);\
+	assert_has_type(item, CJSON_INVALID);\
 	assert_not_in_list(item);\
 	assert_has_no_child(item);\
 	assert_has_no_string(item);\

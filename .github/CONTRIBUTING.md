@@ -1,7 +1,7 @@
 Contribution Guidelines
 =======================
 
-Contributions to cJSON are welcome. If you find a bug or want to improve cJSON in another way, pull requests are appreciated.
+Contributions to cjson_t are welcome. If you find a bug or want to improve cjson_t in another way, pull requests are appreciated.
 
 For bigger changes, in order to avoid wasted effort, please open an issue to discuss the technical details before creating a pull request.
 
@@ -13,7 +13,7 @@ There are two branches to be aware of, the `master` and the `develop` branch. Th
 
 Coding Style
 ------------
-The coding style has been discussed in [#24](https://github.com/DaveGamble/cJSON/issues/24). The basics are:
+The coding style has been discussed in [#24](https://github.com/DaveGamble/cjson_t/issues/24). The basics are:
 
 * Use 4 spaces for indentation
 * No oneliners (conditions, loops, variable declarations ...)
@@ -44,7 +44,7 @@ static void update_offset(printbuffer * const buffer)
 
 Unit Tests
 ----------
-cJSON uses the [Unity](https://github.com/ThrowTheSwitch/Unity) library for unit tests. The tests are located in the `tests` directory. In order to add a new test, either add it to one of the existing files (if it fits) or add a new C file for the test. That new file has to be added to the list of tests in `tests/CMakeLists.txt`.
+cjson_t uses the [Unity](https://github.com/ThrowTheSwitch/Unity) library for unit tests. The tests are located in the `tests` directory. In order to add a new test, either add it to one of the existing files (if it fits) or add a new C file for the test. That new file has to be added to the list of tests in `tests/CMakeLists.txt`.
 
 All new features have to be covered by unit tests.
 

@@ -24,7 +24,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../cJSON.h"
+#include "../cjson.h"
 
 static char *read_file(const char *filename)
 {

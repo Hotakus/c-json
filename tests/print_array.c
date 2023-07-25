@@ -29,7 +29,7 @@ static void assert_print_array(const char * const expected, const char * const i
     unsigned char printed_unformatted[1024];
     unsigned char printed_formatted[1024];
 
-    cJSON item[1];
+    cjson_t item[1];
 
     printbuffer formatted_buffer = { 0, 0, 0, 0, 0, 0, { 0, 0, 0 } };
     printbuffer unformatted_buffer = { 0, 0, 0, 0, 0, 0, { 0, 0, 0 } };

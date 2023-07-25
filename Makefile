@@ -84,7 +84,7 @@ test: tests
 
 #tests
 #cJSON
-$(CJSON_TEST): $(CJSON_TEST_SRC) cJSON.h
+$(CJSON_TEST): $(CJSON_TEST_SRC) cjson.h
 	$(CC) $(R_CFLAGS) $(CJSON_TEST_SRC)  -o $@ $(LDLIBS) -I.
 
 #static libraries
@@ -105,9 +105,9 @@ $(UTILS_SHARED_VERSION): $(UTILS_OBJ)
 
 #objects
 #cJSON
-$(CJSON_OBJ): cJSON.c cJSON.h
+$(CJSON_OBJ): cjson.c cjson.h
 #cJSON_Utils
-$(UTILS_OBJ): cJSON_Utils.c cJSON_Utils.h cJSON.h
+$(UTILS_OBJ): cjson_utils.c cjson_utils.h cjson.h
 
 
 #links .so -> .so.1 -> .so.1.0.0

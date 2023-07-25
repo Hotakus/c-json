@@ -28,9 +28,9 @@
 #include "unity/src/unity.h"
 #include "common.h"
 
-static cJSON item[1];
+static cjson_t item[1];
 
-static void assert_is_value(cJSON *value_item, int type)
+static void assert_is_value(cjson_t *value_item, int type)
 {
     TEST_ASSERT_NOT_NULL_MESSAGE(value_item, "Item is NULL.");
 
@@ -54,52 +54,52 @@ static void assert_parse_value(const char *string, int type)
 
 static void parse_value_should_parse_null(void)
 {
-    assert_parse_value("null", cJSON_NULL);
+    assert_parse_value("null", CJSON_NULL);
     reset(item);
 }
 
 static void parse_value_should_parse_true(void)
 {
-    assert_parse_value("true", cJSON_True);
+    assert_parse_value("true", CJSON_TRUE);
     reset(item);
 }
 
 static void parse_value_should_parse_false(void)
 {
-    assert_parse_value("false", cJSON_False);
+    assert_parse_value("false", CJSON_FALSE);
     reset(item);
 }
 
 static void parse_value_should_parse_number(void)
 {
-    assert_parse_value("1.5", cJSON_Number);
+    assert_parse_value("1.5", CJSON_NUMBER);
     reset(item);
 }
 
 static void parse_value_should_parse_string(void)
 {
-    assert_parse_value("\"\"", cJSON_String);
+    assert_parse_value("\"\"", CJSON_STRING);
     reset(item);
-    assert_parse_value("\"hello\"", cJSON_String);
+    assert_parse_value("\"hello\"", CJSON_STRING);
     reset(item);
 }
 
 static void parse_value_should_parse_array(void)
 {
-    assert_parse_value("[]", cJSON_Array);
+    assert_parse_value("[]", CJSON_ARRAY);
     reset(item);
 }
 
 static void parse_value_should_parse_object(void)
 {
-    assert_parse_value("{}", cJSON_Object);
+    assert_parse_value("{}", CJSON_OBJECT);
     reset(item);
 }
 
 int CJSON_CDECL main(void)
 {
     /* initialize cJSON item */
-    memset(item, 0, sizeof(cJSON));
+    memset(item, 0, sizeof(cjson_t));
     UNITY_BEGIN();
     RUN_TEST(parse_value_should_parse_null);
     RUN_TEST(parse_value_should_parse_true);

@@ -34,10 +34,10 @@ static void cjson_minify_should_not_overflow_buffer(void)
     char unclosed_multiline_comment[] = "/* bla";
     char pending_escape[] = "\"\\";
 
-    cJSON_Minify(unclosed_multiline_comment);
+    cjson_minify(unclosed_multiline_comment);
     TEST_ASSERT_EQUAL_STRING("", unclosed_multiline_comment);
 
-    cJSON_Minify(pending_escape);
+    cjson_minify(pending_escape);
     TEST_ASSERT_EQUAL_STRING("\"\\", pending_escape);
 }
 
@@ -49,7 +49,7 @@ static void cjson_minify_should_remove_single_line_comments(void)
     TEST_ASSERT_NOT_NULL(minified);
     strcpy(minified, to_minify);
 
-    cJSON_Minify(minified);
+    cjson_minify(minified);
     TEST_ASSERT_EQUAL_STRING("{}", minified);
 
     free(minified);
@@ -63,7 +63,7 @@ static void cjson_minify_should_remove_spaces(void)
     TEST_ASSERT_NOT_NULL(minified);
     strcpy(minified, to_minify);
 
-    cJSON_Minify(minified);
+    cjson_minify(minified);
     TEST_ASSERT_EQUAL_STRING("{\"key\":true}", minified);
 
     free(minified);
@@ -77,7 +77,7 @@ static void cjson_minify_should_remove_multiline_comments(void)
     TEST_ASSERT_NOT_NULL(minified);
     strcpy(minified, to_minify);
 
-    cJSON_Minify(minified);
+    cjson_minify(minified);
     TEST_ASSERT_EQUAL_STRING("{}", minified);
 
     free(minified);
@@ -91,7 +91,7 @@ static void cjson_minify_should_not_modify_strings(void)
     TEST_ASSERT_NOT_NULL(minified);
     strcpy(minified, to_minify);
 
-    cJSON_Minify(minified);
+    cjson_minify(minified);
     TEST_ASSERT_EQUAL_STRING(to_minify, minified);
 
     free(minified);
@@ -146,7 +146,7 @@ static void cjson_minify_should_minify_json(void) {
     char *buffer = (char*) malloc(sizeof(to_minify));
     strcpy(buffer, to_minify);
 
-    cJSON_Minify(buffer);
+    cjson_minify(buffer);
     TEST_ASSERT_EQUAL_STRING(minified, buffer);
 
     free(buffer);
@@ -155,7 +155,7 @@ static void cjson_minify_should_minify_json(void) {
 static void cjson_minify_should_not_loop_infinitely(void) {
     char string[] = { '8', ' ', '/', ' ', '5', '\n', '\0' };
     /* this should not be an infinite loop */
-    cJSON_Minify(string);
+    cjson_minify(string);
 }
 
 int CJSON_CDECL main(void)
